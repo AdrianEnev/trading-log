@@ -1,11 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "../../../components/ui/button";
 import { resetPassword } from "../../../lib/api";
 
 export default function ResetPasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen flex items-center justify-center p-6">
+          <div className="w-full max-w-md rounded-lg border bg-white p-6 shadow-sm">
+            <p className="text-sm text-gray-600">Loading reset form…</p>
+          </div>
+        </main>
+      }
+    >
+      <ResetPasswordForm />
+    </Suspense>
+  );
+}
+
+function ResetPasswordForm() {
   const router = useRouter();
   const params = useSearchParams();
   const token = params.get("token") || "";
